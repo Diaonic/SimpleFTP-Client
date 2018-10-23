@@ -37,7 +37,7 @@ namespace SimpleFTP
 
         private void EstablishFTPConnection(Uri uri)
         {
-            FTPConnProfile connProfile = new FTPConnProfile(uri, txt_user.Text, txt_pass.Text, txt_port.Text);
+            ConnectionProfile connProfile = new ConnectionProfile(uri, txt_user.Text, txt_pass.Text, txt_port.Text);
             
 
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);

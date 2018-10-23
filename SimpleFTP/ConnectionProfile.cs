@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleFTP
 {
-    class FTPConnProfile
+    class ConnectionProfile
     {
 
         private Uri _connUri;
@@ -17,7 +17,7 @@ namespace SimpleFTP
         private bool _connBinary;
         private bool _connPassiveMode;
 
-        public FTPConnProfile (Uri uri, string user, string pass, string port, bool keepalive = false, bool binary = true, bool passivemode = true)
+        public ConnectionProfile (Uri uri, string user, string pass, string port, bool keepalive = false, bool binary = true, bool passivemode = true)
         {
             ConnUri             = uri;
             ConnUser           = user;
