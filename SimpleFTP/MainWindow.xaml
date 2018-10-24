@@ -7,14 +7,24 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="381.142" Width="716.596">
     <Grid>
-        <TextBox x:Name="txt_server" HorizontalAlignment="Left" Height="23" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Text="speedtest.tele2.net/"/>
+        <TextBox x:Name="txt_server" HorizontalAlignment="Left" Height="23" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Text="ftp://ftp.dlptest.com/"/>
         <TextBox x:Name="txt_port" HorizontalAlignment="Left" Height="23" Margin="181,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
         <Button x:Name="Btn_connect" Content="Connect" HorizontalAlignment="Left" Margin="93,186,0,0" VerticalAlignment="Top" Width="75" Click="Btn_connect_Click"/>
         <Rectangle Fill="#FFCFCFD6" HorizontalAlignment="Left" Height="308" Margin="224,42,0,0" Stroke="Black" VerticalAlignment="Top" Width="485"/>
-        <TextBox x:Name="txt_user" HorizontalAlignment="Left" Height="23" Margin="10,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158"/>
-        <TextBox x:Name="txt_pass" HorizontalAlignment="Left" Height="23" Margin="10,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158"/>
+        <TextBox x:Name="txt_user" HorizontalAlignment="Left" Height="23" Margin="10,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Text="dlpuser@dlptest.com"/>
         <TextBlock x:Name="txt_block" HorizontalAlignment="Left" Margin="234,0,0,21" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="271" Width="465" Cursor="ScrollNS"/>
         <Button x:Name="Btn_clear" Content="clear" HorizontalAlignment="Left" Margin="93,245,0,0" VerticalAlignment="Top" Width="75" Click="Btn_clear_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="93,295,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <TextBox x:Name="txt_pass" HorizontalAlignment="Left" Height="23" Margin="10,119,0,0" TextWrapping="Wrap" Text="e73jzTRTNqCN9PYAAjjn" VerticalAlignment="Top" Width="152" RenderTransformOrigin="0.5,0.5">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.259"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
 
     </Grid>
 </Window>

@@ -22,6 +22,8 @@ namespace SimpleFTP
     /// </summary>
     public partial class MainWindow : Window
     {
+        ConnectionManager connMan; 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,40 +34,17 @@ namespace SimpleFTP
             txt_block.Text = "";
             txt_block.Text += "Starting connection process...\n";
             Uri providedUri = ParseUrlForFTP(txt_server.Text);
-            EstablishFTPConnection(providedUri);
-        }
 
-        private void EstablishFTPConnection(Uri uri)
-        {
-            ConnectionProfile connProfile = new ConnectionProfile(uri, txt_user.Text, txt_pass.Text, txt_port.Text);
+            ConnectionProfile connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Text, txt_port.Text);
+            connMan = new ConnectionManager();
+            bool isConnected = connMan.ConnectToFTP(connProfile);
+
+           
+            txt_block.Text = connMan.connResponse;
             
-
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
-            request.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
-            request.Credentials = new NetworkCredential(txt_user.Text, txt_pass.Text);
-            request.KeepAlive = false;
-            request.UseBinary = true;
-            request.UsePassive = true;
-            FtpWebResponse response;
-            String serverRsp = "";
-            StreamReader reader;
-            try
-            {
-                response = (FtpWebResponse)request.GetResponse();
-                Stream responseStream = response.GetResponseStream();
-                reader = new StreamReader(responseStream);
-                serverRsp = reader.ReadToEnd();
-                txt_block.Text += "Conncted to: " + uri+ "\n";
-                txt_block.Text += "Directory Listing:\n ----------------- \n";
-                txt_block.Text += serverRsp;
-                reader.Close();
-                response.Close();
-            }
-            catch (WebException ex)
-            {
-                txt_block.Text += ex.Message;
-            }           
         }
+
+        
 
         
         //Checks FTP Url for ftp://
@@ -90,5 +69,18 @@ namespace SimpleFTP
         {
             txt_block.Text = "";
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Uri providedUri = ParseUrlForFTP(txt_server.Text);
+            ConnectionProfile connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Text, txt_port.Text);
+
+            //connMan.DownloadFile(connProfile, "FTP.txt", @"c:\test\FTP.txt");
+            WebClient Client = new WebClient();
+            Client.Credentials = new NetworkCredential(connProfile.ConnUser, connProfile.ConnPass);
+            Client.DownloadFile(providedUri + "FTP.txt", @"C:\test\FTP.txt");
+        }
+
+
     }
 }
