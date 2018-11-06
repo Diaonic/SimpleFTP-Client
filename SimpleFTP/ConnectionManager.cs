@@ -11,7 +11,7 @@ namespace SimpleFTP
     class ConnectionManager
     {
         public string connResponse;
-
+        public List<FileObject> lines = new List<FileObject>();
         public bool ConnectToFTP(ConnectionProfile connProfile)
         {
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(connProfile.ConnUri);
@@ -22,17 +22,23 @@ namespace SimpleFTP
             request.UsePassive = connProfile.ConnPassiveMode;
 
             FtpWebResponse response;
+            Stream responseStream;
             String serverRsp = "";
-            StreamReader reader;
+            lines.Clear();
             try
             {
                 response = (FtpWebResponse)request.GetResponse();
-                Stream responseStream = response.GetResponseStream();
-                reader = new StreamReader(responseStream);
-                serverRsp = reader.ReadToEnd();
-                // txt_block.Text += "Conncted to: " + uri + "\n";
-                // txt_block.Text += "Directory Listing:\n ----------------- \n";
-                //txt_block.Text += serverRsp;
+                responseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(responseStream);
+               
+                string line = "";
+                while((line = reader.ReadLine()) != null)
+                {
+                    Console.WriteLine(line);
+                    serverRsp += line;
+                    
+                    lines.Add(ParseResponseObjects(line));
+                }
                 connResponse = serverRsp;
                 reader.Close();
                 response.Close();
@@ -43,6 +49,13 @@ namespace SimpleFTP
                 connResponse = ex.Message;
                 return false;
             }
+        }
+
+        // Parses http stream response into a FileObject
+        public FileObject ParseResponseObjects(string line)
+        {
+            string[] splitFile = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+            return new FileObject(splitFile[8], splitFile[7], splitFile[6]);
         }
 
         public void DownloadFile(ConnectionProfile connProfile, string fileName, string localPath)

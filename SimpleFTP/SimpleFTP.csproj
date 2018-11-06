@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="ConnectionProfile.cs" />
     <Compile Include="ConnectionManager.cs" />
+    <Compile Include="FileObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

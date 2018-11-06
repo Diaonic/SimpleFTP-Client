@@ -9,12 +9,12 @@
     <Grid>
         <TextBox x:Name="txt_server" HorizontalAlignment="Left" Height="23" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Text="ftp://ftp.dlptest.com/"/>
         <TextBox x:Name="txt_port" HorizontalAlignment="Left" Height="23" Margin="181,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
-        <Button x:Name="Btn_connect" Content="Connect" HorizontalAlignment="Left" Margin="93,186,0,0" VerticalAlignment="Top" Width="75" Click="Btn_connect_Click"/>
-        <Rectangle Fill="#FFCFCFD6" HorizontalAlignment="Left" Height="308" Margin="224,42,0,0" Stroke="Black" VerticalAlignment="Top" Width="485"/>
+        <Button x:Name="Btn_connect" Content="Connect" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" Width="75" Click="Btn_connect_Click"/>
+        <Rectangle Fill="#FFCFCFD6" HorizontalAlignment="Left" Height="119" Margin="224,42,0,0" Stroke="Black" VerticalAlignment="Top" Width="475"/>
         <TextBox x:Name="txt_user" HorizontalAlignment="Left" Height="23" Margin="10,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Text="dlpuser@dlptest.com"/>
-        <TextBlock x:Name="txt_block" HorizontalAlignment="Left" Margin="234,0,0,21" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="271" Width="465" Cursor="ScrollNS"/>
-        <Button x:Name="Btn_clear" Content="clear" HorizontalAlignment="Left" Margin="93,245,0,0" VerticalAlignment="Top" Width="75" Click="Btn_clear_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="93,295,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <TextBlock x:Name="txt_block" HorizontalAlignment="Left" Margin="234,0,0,189" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="92" Width="455" Cursor="ScrollNS"/>
+        <Button x:Name="Btn_clear" Content="clear" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="75" Click="Btn_clear_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="10,205,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <TextBox x:Name="txt_pass" HorizontalAlignment="Left" Height="23" Margin="10,119,0,0" TextWrapping="Wrap" Text="e73jzTRTNqCN9PYAAjjn" VerticalAlignment="Top" Width="152" RenderTransformOrigin="0.5,0.5">
             <TextBox.RenderTransform>
                 <TransformGroup>
@@ -25,6 +25,9 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
+        <ListBox x:Name="lst_fileBox" HorizontalAlignment="Left" Height="115" Margin="224,205,0,0" VerticalAlignment="Top" Width="184"/>
+        <Label x:Name="label" Content="File List" HorizontalAlignment="Left" Margin="224,177,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy" Content="Activity" HorizontalAlignment="Left" Margin="224,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.367,-2.692"/>
 
     </Grid>
 </Window>

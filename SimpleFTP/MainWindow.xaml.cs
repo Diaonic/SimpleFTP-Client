@@ -38,10 +38,15 @@ namespace SimpleFTP
             ConnectionProfile connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Text, txt_port.Text);
             connMan = new ConnectionManager();
             bool isConnected = connMan.ConnectToFTP(connProfile);
-
-           
+            if(isConnected)
+            {
+                lst_fileBox.Items.Add("File Name         File Size            Modified Date");
+                foreach (var item in connMan.lines)
+                {
+                    lst_fileBox.Items.Add(item.FileName + " ");
+                }
+            }
             txt_block.Text = connMan.connResponse;
-            
         }
 
         
