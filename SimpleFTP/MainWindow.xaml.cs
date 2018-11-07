@@ -38,13 +38,19 @@ namespace SimpleFTP
             ConnectionProfile connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Text, txt_port.Text);
             connMan = new ConnectionManager();
             bool isConnected = connMan.ConnectToFTP(connProfile);
+
             if(isConnected)
             {
-                lst_fileBox.Items.Add("File Name         File Size            Modified Date");
+                //lst_fileBox.Items.Add("File Name         File Size            Modified Date");
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(string.Format("{0, -50}{1, -25}", "File Name", "File Size"));
+              
                 foreach (var item in connMan.lines)
                 {
-                    lst_fileBox.Items.Add(item.FileName + " ");
+                    //lst_fileBox.Items.Add(item.FileName + " ");
+                    sb.AppendLine(string.Format("{0, -50}{1, -25}", item.FileDisplayName, item.FileSize));
                 }
+                txt_remoteFileSystem.Text = sb.ToString();
             }
             txt_block.Text = connMan.connResponse;
         }

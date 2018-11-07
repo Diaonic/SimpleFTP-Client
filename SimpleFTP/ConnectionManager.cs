@@ -55,7 +55,7 @@ namespace SimpleFTP
         public FileObject ParseResponseObjects(string line)
         {
             string[] splitFile = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-            return new FileObject(splitFile[8], splitFile[7], splitFile[6]);
+            return new FileObject(splitFile[8], splitFile[4], splitFile[6]);
         }
 
         public void DownloadFile(ConnectionProfile connProfile, string fileName, string localPath)
