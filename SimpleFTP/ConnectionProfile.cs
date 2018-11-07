@@ -19,7 +19,7 @@ namespace SimpleFTP
 
         public ConnectionProfile (Uri uri, string user, string pass, string port, bool keepalive = false, bool binary = true, bool passivemode = true)
         {
-            ConnUri             = uri;
+            ConnUri            = uri;
             ConnUser           = user;
             ConnPass           = pass;
             ConnPort           = port;

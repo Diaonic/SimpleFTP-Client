@@ -39,14 +39,14 @@ namespace SimpleFTP
                     
                     lines.Add(ParseResponseObjects(line));
                 }
-                connResponse = serverRsp;
+                connResponse += "Downloading file list...";               
                 reader.Close();
                 response.Close();
                 return true;
             }
             catch (WebException ex)
             {
-                connResponse = ex.Message;
+                connResponse += ex.Message;
                 return false;
             }
         }
@@ -72,9 +72,17 @@ namespace SimpleFTP
 
         }
 
-        public void UploadFile()
+        public void UploadFile(string fileName, Uri uriString)
         {
+            // Create a new WebClient instance.
+            WebClient myWebClient = new WebClient();
+            // Upload the file to the URI.
+            // The 'UploadFile(uriString,fileName)' method implicitly uses HTTP POST method.
+            byte[] responseArray = myWebClient.UploadFile(uriString+"/95.jpg", "c:\\95.jpg");
 
+            // Decode and display the response.
+            Console.WriteLine("\nResponse Received.The contents of the file uploaded are:\n{0}",
+                System.Text.Encoding.ASCII.GetString(responseArray));
         }
 
       

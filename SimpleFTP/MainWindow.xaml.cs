@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net;
 using System.IO;
+using System.Windows.Threading;
 
 namespace SimpleFTP
 {
@@ -22,76 +23,115 @@ namespace SimpleFTP
     /// </summary>
     public partial class MainWindow : Window
     {
-        ConnectionManager connMan; 
-
+        public bool cursorActive;
+        ConnectionManager connMan;
+        ConnectionProfile connProfile;
         public MainWindow()
         {
             InitializeComponent();
+            cursorActive = false;
+            DispatcherTimerSample();
         }
 
-        private void Btn_connect_Click(object sender, RoutedEventArgs e)
+        private void btn_connect_Click(object sender, RoutedEventArgs e)
         {
-            txt_block.Text = "";
-            txt_block.Text += "Starting connection process...\n";
-            Uri providedUri = ParseUrlForFTP(txt_server.Text);
+            AppendConsole("Starting connection process...");
+            Uri providedUri = ParseUrlForFTP(txt_server.Text, txt_port.Text);
 
-            ConnectionProfile connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Text, txt_port.Text);
+            connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Text, txt_port.Text);
             connMan = new ConnectionManager();
             bool isConnected = connMan.ConnectToFTP(connProfile);
 
             if(isConnected)
             {
-                //lst_fileBox.Items.Add("File Name         File Size            Modified Date");
+                AppendConsole("Connected!");
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine(string.Format("{0, -50}{1, -25}", "File Name", "File Size"));
+                sb.AppendLine(string.Format("{0, -30}{1, -15}", "File Name", "File Size"));
               
                 foreach (var item in connMan.lines)
                 {
-                    //lst_fileBox.Items.Add(item.FileName + " ");
-                    sb.AppendLine(string.Format("{0, -50}{1, -25}", item.FileDisplayName, item.FileSize));
+                    sb.AppendLine(string.Format("{0, -30}{1, -15}", item.FileDisplayName, item.FileSize));
                 }
                 txt_remoteFileSystem.Text = sb.ToString();
             }
-            txt_block.Text = connMan.connResponse;
+            AppendConsole(connMan.connResponse);
         }
 
-        
-
-        
+              
         //Checks FTP Url for ftp://
-        private Uri ParseUrlForFTP(string url)
+        private Uri ParseUrlForFTP(string url, string port)
         {
-            Console.WriteLine(url);
-            
+            AppendConsole("Parsing provided url and port...");
             if(url.StartsWith("ftp://"))
             {
-                Console.WriteLine("Parsed URL: " + url);
-               
-                return new Uri(url);
+                AppendConsole(url + ":" + port);
+                return new Uri(url + ":" + port);
             } else
             {
                 string formattedUrl = "ftp://" + url;
-                Console.WriteLine("Parsed URL: " + formattedUrl);
-                return new Uri(formattedUrl);
+                AppendConsole(formattedUrl + ":" + port);
+                return new Uri(formattedUrl + ":" + port);
             }         
         }
 
-        private void Btn_clear_Click(object sender, RoutedEventArgs e)
+        private void btn_clear_Click(object sender, RoutedEventArgs e)
         {
-            txt_block.Text = "";
+           txt_AppendConsole.Text = "";
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btn_fileBrowse_Click(object sender, RoutedEventArgs e)
         {
-            Uri providedUri = ParseUrlForFTP(txt_server.Text);
-            ConnectionProfile connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Text, txt_port.Text);
+            AppendConsole("Browsing for local files...");
+            // Create OpenFileDialog 
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
-            //connMan.DownloadFile(connProfile, "FTP.txt", @"c:\test\FTP.txt");
-            WebClient Client = new WebClient();
-            Client.Credentials = new NetworkCredential(connProfile.ConnUser, connProfile.ConnPass);
-            Client.DownloadFile(providedUri + "FTP.txt", @"C:\test\FTP.txt");
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+            
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                txt_fileToUpload.Text = filename;
+                AppendConsole("File Selected: " + filename);
+                btn_uploadFile.IsEnabled = true;  
+            }
         }
 
+        private void AppendConsole(string message)
+        {
+            txt_AppendConsole.Text += message;
+            txt_AppendConsole.Text += "\n";
+            txt_AppendConsole.ScrollToEnd();
+        }
 
+        public void DispatcherTimerSample()
+        {
+            InitializeComponent();
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(.5);
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            if(!cursorActive)
+            {
+                txt_AppendConsole.Text += "_";
+                cursorActive = true;
+            } else
+            {
+                txt_AppendConsole.Text = txt_AppendConsole.Text.Replace("_", "");
+                //txt_AppendConsole.Text = txt_AppendConsole.Text.Remove(txt_AppendConsole.Text.Length - 1);
+                cursorActive = false;
+            }
+        }
+
+        private void btn_uploadFile_Click(object sender, RoutedEventArgs e)
+        {
+            connMan.UploadFile(txt_fileToUpload.Text, connProfile.ConnUri);
+        }
     }
 }

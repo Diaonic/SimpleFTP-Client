@@ -7,15 +7,13 @@
         mc:Ignorable="d"
         Title="SimpleFTP" Height="598.369" Width="867.987">
     <Grid Background="#FFE0E0E0">
-        <TextBox x:Name="txt_server" HorizontalAlignment="Left" Height="23" Margin="124,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Text="ftp://ftp.dlptest.com/"/>
-        <TextBox x:Name="txt_port" HorizontalAlignment="Left" Height="23" Margin="744,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
-        <Button x:Name="Btn_connect" Content="Connect" HorizontalAlignment="Left" Margin="50,14,0,0" VerticalAlignment="Top" Width="75" Click="Btn_connect_Click"/>
+        <TextBox x:Name="txt_server" HorizontalAlignment="Left" Height="23" Margin="108,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Text="144.208.69.31" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="txt_port" HorizontalAlignment="Left" Height="23" Margin="728,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38" Text="21" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button x:Name="btn_connect" Content="Connect" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="75" Click="btn_connect_Click" Background="#FFA2FF93"/>
         <Rectangle Fill="#FFCFCFD6" HorizontalAlignment="Left" Height="135" Margin="10,71,0,0" Stroke="Black" VerticalAlignment="Top" Width="840"/>
-        <TextBox x:Name="txt_user" HorizontalAlignment="Left" Height="23" Margin="321,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Text="dlpuser@dlptest.com"/>
-        <TextBlock x:Name="txt_block" HorizontalAlignment="Left" Margin="22,0,0,371" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="115" Width="818" Cursor="ScrollNS" FontFamily="Courier New"/>
-        <Button x:Name="Btn_clear" Content="clear" HorizontalAlignment="Left" Margin="157,14,0,0" VerticalAlignment="Top" Width="75" Click="Btn_clear_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="268,14,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <TextBox x:Name="txt_pass" HorizontalAlignment="Left" Height="23" Margin="550,43,0,0" TextWrapping="Wrap" Text="e73jzTRTNqCN9PYAAjjn" VerticalAlignment="Top" Width="152" RenderTransformOrigin="0.5,0.5">
+        <TextBox x:Name="txt_user" HorizontalAlignment="Left" Height="23" Margin="305,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Text="dlpuser@dlptest.com" VerticalContentAlignment="Center"/>
+        <Button x:Name="btn_clear" Content="Clear Log" HorizontalAlignment="Left" Margin="90,14,0,0" VerticalAlignment="Top" Width="75" Click="btn_clear_Click" Background="#FFACEBF9"/>
+        <TextBox x:Name="txt_pass" HorizontalAlignment="Left" Height="23" Margin="534,43,0,0" TextWrapping="Wrap" Text="e73jzTRTNqCN9PYAAjjn" VerticalAlignment="Top" Width="152" RenderTransformOrigin="0.5,0.5" VerticalContentAlignment="Center">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -26,12 +24,26 @@
             </TextBox.RenderTransform>
         </TextBox>
         <Label x:Name="label" Content="Remote File System" HorizontalAlignment="Left" Margin="591,215,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Server Name/IP:" HorizontalAlignment="Left" Margin="22,39,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Username:" HorizontalAlignment="Left" Margin="251,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Password:" HorizontalAlignment="Left" Margin="484,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Port:" HorizontalAlignment="Left" Margin="702,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="label_Copy" Content="Local File System" HorizontalAlignment="Left" Margin="141,215,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <TextBox x:Name="txt_remoteFileSystem" HorizontalAlignment="Left" Height="311" Margin="402,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="448" FontFamily="Courier New"/>
+        <Label Content="Server Name/IP:" HorizontalAlignment="Left" Margin="6,39,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Username:" HorizontalAlignment="Left" Margin="235,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Password:" HorizontalAlignment="Left" Margin="468,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Port:" HorizontalAlignment="Left" Margin="686,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="label_Copy" Content="Choose File to Upload" HorizontalAlignment="Left" Margin="124,215,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox x:Name="txt_remoteFileSystem" HorizontalAlignment="Left" Height="312" Margin="402,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="448" FontFamily="Courier New"/>
+        <TextBox x:Name="txt_fileToUpload" HorizontalAlignment="Left" Height="48" Margin="87,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="307" IsEnabled="False" RenderTransformOrigin="0.5,0.5" FontFamily="Courier New">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.416"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+        <Button x:Name="btn_fileBrowse" Content="Browse" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Width="75" Click="btn_fileBrowse_Click"/>
+        <TextBox x:Name="txt_AppendConsole" HorizontalAlignment="Left" Height="135" Margin="10,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" FontFamily="Courier New" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Background="Black" BorderBrush="Black" Foreground="#FF90FF6F"/>
+        <Button x:Name="btn_disconnect" Content="Disconnect" HorizontalAlignment="Left" Margin="170,14,0,0" VerticalAlignment="Top" Width="75" Click="btn_connect_Click" Background="#FFFFA793"/>
+        <Button x:Name="btn_uploadFile" Content="Upload" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" Width="75" Background="#FFF7CC70" IsEnabled="False" Click="btn_uploadFile_Click"/>
 
     </Grid>
 </Window>
