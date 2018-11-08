@@ -26,6 +26,7 @@ namespace SimpleFTP
         public bool cursorActive;
         ConnectionManager connMan;
         ConnectionProfile connProfile;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -33,12 +34,12 @@ namespace SimpleFTP
             DispatcherTimerSample();
         }
 
-        private void btn_connect_Click(object sender, RoutedEventArgs e)
+        private void Btn_connect_Click(object sender, RoutedEventArgs e)
         {
             AppendConsole("Starting connection process...");
             Uri providedUri = ParseUrlForFTP(txt_server.Text, txt_port.Text);
 
-            connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Text, txt_port.Text);
+            connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Password, txt_port.Text);
             connMan = new ConnectionManager();
             bool isConnected = connMan.ConnectToFTP(connProfile);
 
@@ -74,12 +75,12 @@ namespace SimpleFTP
             }         
         }
 
-        private void btn_clear_Click(object sender, RoutedEventArgs e)
+        private void Btn_clear_Click(object sender, RoutedEventArgs e)
         {
            txt_AppendConsole.Text = "";
         }
 
-        private void btn_fileBrowse_Click(object sender, RoutedEventArgs e)
+        private void Btn_fileBrowse_Click(object sender, RoutedEventArgs e)
         {
             AppendConsole("Browsing for local files...");
             // Create OpenFileDialog 
@@ -95,7 +96,7 @@ namespace SimpleFTP
                 string filename = dlg.FileName;
                 txt_fileToUpload.Text = filename;
                 AppendConsole("File Selected: " + filename);
-                btn_uploadFile.IsEnabled = true;  
+                Btn_uploadFile.IsEnabled = true;  
             }
         }
 
@@ -109,13 +110,15 @@ namespace SimpleFTP
         public void DispatcherTimerSample()
         {
             InitializeComponent();
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(.5);
-            timer.Tick += timer_Tick;
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(.5)
+            };
+            timer.Tick += Timer_Tick;
             timer.Start();
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        void Timer_Tick(object sender, EventArgs e)
         {
             if(!cursorActive)
             {
@@ -129,9 +132,10 @@ namespace SimpleFTP
             }
         }
 
-        private void btn_uploadFile_Click(object sender, RoutedEventArgs e)
+        private void Btn_uploadFile_Click(object sender, RoutedEventArgs e)
         {
-            connMan.UploadFile(txt_fileToUpload.Text, connProfile.ConnUri);
+           AppendConsole(ConnectionManager.FtpUpload(connProfile.ConnUri.ToString(), connProfile.ConnUser, connProfile.ConnPass, txt_fileToUpload.Text));
+
         }
     }
 }

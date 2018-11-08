@@ -67,28 +67,37 @@ namespace SimpleFTP
             
         }
 
-        public void DisconnectFromFTP()
+        public static string FtpUpload(string uri, string userName, string password, string filePath)
         {
+            try
+            {
+                // Get the object used to communicate with the server.
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri + "/" + System.IO.Path.GetFileName(filePath));
+                request.Method = WebRequestMethods.Ftp.UploadFile;
 
-        }
+                // This example assumes the FTP site uses anonymous logon.
+                request.Credentials = new NetworkCredential(userName, password);
 
-        public void UploadFile(string fileName, Uri uriString)
-        {
-            // Create a new WebClient instance.
-            WebClient myWebClient = new WebClient();
-            // Upload the file to the URI.
-            // The 'UploadFile(uriString,fileName)' method implicitly uses HTTP POST method.
-            byte[] responseArray = myWebClient.UploadFile(uriString+"/95.jpg", "c:\\95.jpg");
+                // Copy the contents of the file to the request stream.
+                StreamReader sourceStream = new StreamReader(filePath);
+                byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
+                sourceStream.Close();
+                request.ContentLength = fileContents.Length;
 
-            // Decode and display the response.
-            Console.WriteLine("\nResponse Received.The contents of the file uploaded are:\n{0}",
-                System.Text.Encoding.ASCII.GetString(responseArray));
-        }
+                Stream requestStream = request.GetRequestStream();
+                requestStream.Write(fileContents, 0, fileContents.Length);
+                requestStream.Close();
 
-      
-        public void CleanupConnObjs()
-        {
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                Console.WriteLine("Upload File Complete, status {0}", response.StatusDescription);
+                response.Close();
 
+                return response.StatusDescription;
+            }
+            catch (Exception w)
+            {
+                return w.Message;
+            }        
         }
 
         public Uri ParseConnectionUrl(string url)
