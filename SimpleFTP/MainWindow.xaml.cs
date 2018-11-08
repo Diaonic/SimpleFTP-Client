@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Net;
 using System.IO;
 using System.Windows.Threading;
+using System.Threading;
 
 namespace SimpleFTP
 {
@@ -26,36 +27,42 @@ namespace SimpleFTP
         public bool cursorActive;
         ConnectionManager connMan;
         ConnectionProfile connProfile;
+        public static MainWindow mainWindow;
 
         public MainWindow()
         {
             InitializeComponent();
             cursorActive = false;
             DispatcherTimerSample();
+            mainWindow = this;
         }
 
         private void Btn_connect_Click(object sender, RoutedEventArgs e)
         {
-            AppendConsole("Starting connection process...");
-            Uri providedUri = ParseUrlForFTP(txt_server.Text, txt_port.Text);
-
-            connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Password, txt_port.Text);
-            connMan = new ConnectionManager();
-            bool isConnected = connMan.ConnectToFTP(connProfile);
-
-            if(isConnected)
+            Dispatcher.BeginInvoke(new Action(() =>
             {
-                AppendConsole("Connected!");
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine(string.Format("{0, -30}{1, -15}", "File Name", "File Size"));
-              
-                foreach (var item in connMan.lines)
+                AppendConsole("Starting connection process...");
+                Uri providedUri = ParseUrlForFTP(txt_server.Text, txt_port.Text);
+
+                connProfile = new ConnectionProfile(providedUri, txt_user.Text, txt_pass.Password, txt_port.Text);
+                connMan = new ConnectionManager();
+                bool isConnected = connMan.ConnectToFTP(connProfile);
+
+                if (isConnected)
                 {
-                    sb.AppendLine(string.Format("{0, -30}{1, -15}", item.FileDisplayName, item.FileSize));
+                    AppendConsole("Connected!");
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine(string.Format("{0, -30}{1, -15}", "File Name", "File Size"));
+
+                    foreach (var item in connMan.lines)
+                    {
+                        sb.AppendLine(string.Format("{0, -30}{1, -15}", item.FileDisplayName, item.FileSize));
+                    }
+                    txt_remoteFileSystem.Text = sb.ToString();
                 }
-                txt_remoteFileSystem.Text = sb.ToString();
-            }
-            AppendConsole(connMan.connResponse);
+                AppendConsole(connMan.connResponse);
+            }), DispatcherPriority.Background);
+           
         }
 
               
@@ -75,24 +82,21 @@ namespace SimpleFTP
             }         
         }
 
+        //Clears console window
         private void Btn_clear_Click(object sender, RoutedEventArgs e)
         {
            txt_AppendConsole.Text = "";
         }
 
+        // Browse for file to upload
         private void Btn_fileBrowse_Click(object sender, RoutedEventArgs e)
         {
             AppendConsole("Browsing for local files...");
-            // Create OpenFileDialog 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-            // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
             
-            // Get the selected file name and display in a TextBox 
             if (result == true)
             {
-                // Open document 
                 string filename = dlg.FileName;
                 txt_fileToUpload.Text = filename;
                 AppendConsole("File Selected: " + filename);
@@ -100,11 +104,17 @@ namespace SimpleFTP
             }
         }
 
-        private void AppendConsole(string message)
-        {
-            txt_AppendConsole.Text += message;
-            txt_AppendConsole.Text += "\n";
-            txt_AppendConsole.ScrollToEnd();
+
+
+        public void AppendConsole(string message)
+        {         
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                txt_AppendConsole.Text += message;
+                txt_AppendConsole.Text += "\n";
+                txt_AppendConsole.ScrollToEnd();
+            }), DispatcherPriority.Background);
+
         }
 
         public void DispatcherTimerSample()
@@ -127,15 +137,49 @@ namespace SimpleFTP
             } else
             {
                 txt_AppendConsole.Text = txt_AppendConsole.Text.Replace("_", "");
-                //txt_AppendConsole.Text = txt_AppendConsole.Text.Remove(txt_AppendConsole.Text.Length - 1);
                 cursorActive = false;
             }
         }
 
         private void Btn_uploadFile_Click(object sender, RoutedEventArgs e)
         {
-           AppendConsole(ConnectionManager.FtpUpload(connProfile.ConnUri.ToString(), connProfile.ConnUser, connProfile.ConnPass, txt_fileToUpload.Text));
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                AppendConsole(ConnectionManager.FtpUpload(connProfile.ConnUri.ToString(), connProfile.ConnUser, connProfile.ConnPass, txt_fileToUpload.Text));
+            }), DispatcherPriority.Background);
 
+        }
+
+        private void Btn_Download_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                // Using 5 as a check due to extension and dot character in the file name
+                if (txt_downloadFile.Text.Length >= 5)
+                {
+                    foreach (var line in connMan.lines)
+                    {
+                        if (line.FileName.Equals(txt_downloadFile.Text))
+                        {
+                            //download
+                            AppendConsole(String.Format("File match found! {0}", txt_downloadFile.Text));
+                            AppendConsole("Starting Download...");
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                ConnectionManager.FtpDownload(
+                                connProfile.ConnUri.ToString(),
+                                connProfile.ConnUser,
+                                connProfile.ConnPass,
+                                txt_downloadFile.Text,
+                                "../",
+                                line.FileSize);
+                            });
+                            txt_downloadFile.Text = "";
+                        }
+                    }
+                }
+            }), DispatcherPriority.Background);
+           
         }
     }
 }
