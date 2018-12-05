@@ -7,19 +7,20 @@
         mc:Ignorable="d"
         Title="SimpleFTP" Height="598.369" Width="867.987">
     <Grid Background="#FFE0E0E0">
-        <TextBox x:Name="txt_server" HorizontalAlignment="Left" Height="23" Margin="108,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Text="speedtest.tele2.net" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="txt_port" HorizontalAlignment="Left" Height="23" Margin="728,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38" Text="21" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Button x:Name="Btn_connect" Content="Connect" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="75" Click="Btn_connect_Click" Background="#FFA2FF93"/>
-        <Rectangle Fill="#FFCFCFD6" HorizontalAlignment="Left" Height="135" Margin="10,71,0,0" Stroke="Black" VerticalAlignment="Top" Width="840"/>
-        <TextBox x:Name="txt_user" HorizontalAlignment="Left" Height="23" Margin="305,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" VerticalContentAlignment="Center"/>
         <Button x:Name="Btn_clear" Content="Clear Log" HorizontalAlignment="Left" Margin="90,14,0,0" VerticalAlignment="Top" Width="75" Click="Btn_clear_Click" Background="#FFACEBF9"/>
         <Label x:Name="label" Content="Remote File System" HorizontalAlignment="Left" Margin="591,215,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="Server Name/IP:" HorizontalAlignment="Left" Margin="6,39,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox x:Name="txt_server" HorizontalAlignment="Left" Height="23" Margin="108,42,0,0" VerticalAlignment="Top" Width="123" Text="speedtest.tele2.net" VerticalContentAlignment="Center"/>
         <Label Content="Username:" HorizontalAlignment="Left" Margin="235,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox x:Name="txt_user" HorizontalAlignment="Left" Height="23" Margin="305,42,0,0" VerticalAlignment="Top" Width="158" VerticalContentAlignment="Center"/>
         <Label Content="Password:" HorizontalAlignment="Left" Margin="468,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <PasswordBox x:Name="txt_pass" HorizontalAlignment="Left" Margin="534,42,0,0" VerticalAlignment="Top" Width="152" Height="23"/>
         <Label Content="Port:" HorizontalAlignment="Left" Margin="686,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox x:Name="txt_port" HorizontalAlignment="Left" Height="23" Margin="728,42,0,0" VerticalAlignment="Top" Width="38" Text="21" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Rectangle Fill="#FFCFCFD6" HorizontalAlignment="Left" Height="135" Margin="10,71,0,0" Stroke="Black" VerticalAlignment="Top" Width="840"/>
+        <TextBox x:Name="txt_AppendConsole" HorizontalAlignment="Left" Height="135" Margin="10,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="840" FontFamily="Courier New" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Background="Black" BorderBrush="Black" Foreground="#FF90FF6F" IsReadOnly="True"/>
         <Label x:Name="label_Copy" Content="Choose File to Upload" HorizontalAlignment="Left" Margin="124,215,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <TextBox x:Name="txt_remoteFileSystem" HorizontalAlignment="Left" Height="259" Margin="402,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="448" FontFamily="Courier New"/>
         <TextBox x:Name="txt_fileToUpload" HorizontalAlignment="Left" Height="48" Margin="87,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="307" IsEnabled="False" RenderTransformOrigin="0.5,0.5" FontFamily="Courier New">
             <TextBox.RenderTransform>
                 <TransformGroup>
@@ -31,11 +32,10 @@
             </TextBox.RenderTransform>
         </TextBox>
         <Button x:Name="Btn_fileBrowse" Content="Browse" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Width="75" Click="Btn_fileBrowse_Click"/>
-        <TextBox x:Name="txt_AppendConsole" HorizontalAlignment="Left" Height="135" Margin="10,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="840" FontFamily="Courier New" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Background="Black" BorderBrush="Black" Foreground="#FF90FF6F" IsReadOnly="True"/>
         <Button x:Name="Btn_uploadFile" Content="Upload" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" Width="75" Background="#FFF7CC70" IsEnabled="False" Click="Btn_uploadFile_Click"/>
-        <PasswordBox x:Name="txt_pass" HorizontalAlignment="Left" Margin="534,42,0,0" VerticalAlignment="Top" Width="152" Height="23"/>
-        <TextBox x:Name="txt_downloadFile" HorizontalAlignment="Left" Height="24" Margin="482,509,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" AutomationProperties.HelpText="Type the file name you want to download"/>
+        <TextBox x:Name="txt_remoteFileSystem" HorizontalAlignment="Left" Height="259" Margin="402,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="448" FontFamily="Courier New"/>
         <Button x:Name="Btn_Download" Content="Download" HorizontalAlignment="Left" Margin="402,509,0,0" VerticalAlignment="Top" Width="75" Height="24" Click="Btn_Download_Click"/>
+        <TextBox x:Name="txt_downloadFile" HorizontalAlignment="Left" Height="24" Margin="482,509,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" AutomationProperties.HelpText="Type the file name you want to download"/>
 
     </Grid>
 </Window>
